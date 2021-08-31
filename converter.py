@@ -26,6 +26,9 @@ class buffer(list):
             self.pop(0)
         return None
 
+    def isFull(self):
+        return self.maxSize == len(self)
+
 
 list_context_answer_dict = []
 b = buffer(1)
@@ -35,7 +38,7 @@ for _, row in df.iterrows():
     if(any(fil in row["Content"] for fil in filters)):
         continue
 
-    if(row["Author"] == intended_author):
+    if(row["Author"] == intended_author and b.isFull()):
         list_context_answer_dict.append(dict(prompt="\n".join(b), completion=row["Content"]))
         b.clear()
         continue
